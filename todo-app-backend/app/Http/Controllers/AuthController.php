@@ -16,7 +16,7 @@ class AuthController extends Controller
     
   //310300
      public function signup(SignUpRequest  $request){
-          try{
+         
                 // Users::create($request->validated())  ;
                 // return response()->json(200, "user created successfully");
                 $data = $request->validated();
@@ -27,10 +27,8 @@ class AuthController extends Controller
                 ]);
 
                   return response()->json("user created successfully");
-            }
-                  catch(Exception $e){
-                  return response()->json("error creating user");
-            }
+            
+               
       }
 
 
