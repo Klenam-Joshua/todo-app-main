@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Request\Http\LoginRequest;
-use App\Request\Http\SignUpRequest;
-use App\Model\Users;
-use Illumintate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\SignUpRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -20,18 +20,18 @@ class AuthController extends Controller
                 // Users::create($request->validated())  ;
                 // return response()->json(200, "user created successfully");
                 $data = $request->validated();
-                Users::create([
+                User::create([
                      'name' => $data['username'],
                      'email' => $data['useremail'],
                      'password'=> bcrypt($data['userpassword'])
                 ]);
 
-                  return response()->json(200,"user created successfully");
+                  return response()->json("user created successfully");
             }
-                     catch(Exception $e){
-                     return response()->json(400,"error creating user");
-           }
-     }
+                  catch(Exception $e){
+                  return response()->json("error creating user");
+            }
+      }
 
 
 
@@ -42,16 +42,20 @@ class AuthController extends Controller
                  }
 
                  $user = Auth::user();
-                 $token = $user->createToken('main')->accessToken;
+                 $token = $user->createToken('main')->plainTextToken;
 
-                 return response()-json([
+                 return response()->json([
                         'user' => $user,
                         'usertoken' => $token
                  ], 201);
 
     }
 
-    public function logout(){
-        
+    public function logout(Request $request){
+            $user = $request->$user();
+            $user->currentAccessToken()->delete();
+               
+            // why this return is not response()->json()
+            return response('',204);
     }
 }
