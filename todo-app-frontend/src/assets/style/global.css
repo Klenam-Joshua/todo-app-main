@@ -17,21 +17,66 @@
     --DarkGrayishBlue: hsl(234, 11%, 52%);
     --vDarkGrayishBlue: hsl(233, 14%, 35%);
     --vDarkGrayishBlue: hsl(237, 14%, 26%);
-
+    --poppins: 'Poppins', sans-serif;
+    --roboto: 'Roboto', sans-serif;
 
 }
 
-/*
-  
-- v Light Gray: hsl(0, 0%, 98%)
-- Very Light Grayish Blue: hsl(236, 33%, 92%)
-- Light Grayish Blue: hsl(233, 11%, 84%)
-- Dark Grayish Blue: hsl(236, 9%, 61%)
-- Very Dark Grayish Blue: hsl(235, 19%, 35%)
-/*
 
+html,
+body,
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: var(--poppins);
+}
+
+html,
+body {
+    background: var(--vLightGray);
+}
+
+.row {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-start {
+    justify-content: flex-start;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+
+
+.align-center {
+    align-items: center;
+}
+
+
+/*============ widths   based on grid view==============*/
+.w-6 {
+    width: 50%;
+}
+
+.w-5 {
+    width: 41.666%;
+}
+
+.w-4 {
+    width: 33.3333%;
+}
+
+
+
+/*========= colors =====*/
+
+.text-light {
+    color: var(--vLightGray);
 }
