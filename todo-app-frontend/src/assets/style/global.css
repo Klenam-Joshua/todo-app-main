@@ -1,11 +1,34 @@
 :root {
     --checkBackground: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
+    /* hovered  buttons in light mode */
     --brightBlue: hsl(220, 98%, 61%);
     --vLightGray: hsl(0, 0%, 98%);
-    --vLighGrayishBlue: hsl(236, 33%, 92%);
-    --darkGrayishBlue: hsl(236, 9%, 61%);
+    --vLightGrayishBlue: hsl(236, 32%, 92%);
+    --darkGrayishBlue: hsl(237, 9%, 61%);
     --vDarkGrayishBlue: hsl(235, 19%, 35%);
+
+    /*===== dark theme colors ==========*/
+
+
+    --vDarkBlue: hsl(235, 21%, 11%);
+    --vDarkDesaturatedBlue: hsl(235, 24%, 19%);
+    --LightGrayishBlue: hsl(234, 39%, 85%);
+    --LightGrayishBlue: hsl(236, 33%, 92%);
+    --DarkGrayishBlue: hsl(234, 11%, 52%);
+    --vDarkGrayishBlue: hsl(233, 14%, 35%);
+    --vDarkGrayishBlue: hsl(237, 14%, 26%);
+
+
 }
+
+/*
+  
+- v Light Gray: hsl(0, 0%, 98%)
+- Very Light Grayish Blue: hsl(236, 33%, 92%)
+- Light Grayish Blue: hsl(233, 11%, 84%)
+- Dark Grayish Blue: hsl(236, 9%, 61%)
+- Very Dark Grayish Blue: hsl(235, 19%, 35%)
+/*
 
 * {
     box-sizing: border-box;
