@@ -1,0 +1,14 @@
+:root {
+    --checkBackground: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
+    --brightBlue: hsl(220, 98%, 61%);
+    --vLightGray: hsl(0, 0%, 98%);
+    --vLighGrayishBlue: hsl(236, 33%, 92%);
+    --darkGrayishBlue: hsl(236, 9%, 61%);
+    --vDarkGrayishBlue: hsl(235, 19%, 35%);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
