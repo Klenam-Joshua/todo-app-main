@@ -1,20 +1,12 @@
+main {
+    height: 100%;
+}
+
 #header {
-    background: url(../../assets/images/bg-desktop-light.jpg);
+
     background-size: cover;
     min-height: 45vh;
     padding-top: 7rem;
-
-}
-
-#contents {
-    /*  var(--vLightGray) */
-    background: var(--vLightGray);
-    margin: auto;
-    position: relative;
-    transform: translateY(-20%);
-    box-shadow: 0px 10px 7px var(--vLightGrayishBlue);
-    min-height: 40vh;
-    border-radius: 0.3rem;
 
 }
 
@@ -24,4 +16,24 @@
 
 #modeIconCont {
     margin: auto;
+    cursor: pointer;
+}
+
+#search_bar_con {
+    margin-inline: auto;
+    background: white;
+    margin-top: 3rem;
+
+}
+
+#contents {
+    /*  var(--vLightGray) */
+
+    margin: auto;
+    position: relative;
+    transform: translateY(-20%);
+    box-shadow: 0px 10px 7px var(--vLightGrayishBlue);
+    min-height: 40vh;
+    border-radius: 0.3rem;
+
 }
