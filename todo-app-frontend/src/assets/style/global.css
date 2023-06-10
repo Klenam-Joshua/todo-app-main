@@ -37,6 +37,7 @@ body {
     background: var(--vLightGray);
 }
 
+
 .row {
     display: flex;
 }
