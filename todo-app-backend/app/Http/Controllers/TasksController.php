@@ -4,16 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use  App\Models\Tasks;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
 {
-    public function tasks(){
-               $user = Auth::user();
-               return $user;
+    public function tasks(Request $request){
+     $userId = $request->header("userId");
+      $user =  User::where('user_id',$userId);
+      if(!$user){
+          return response()->json("not found",404);
+      }
+     $todos =  Tasks::where("user_id",$userId)->orderBy('priority','asc');
+
+      return response()->json($todos);
+             
     }
 
-    public function destroy(){
+    public function destroy(Request $request){
                 
             $totalTodoCount = todos::where('status','active')->count();
 
