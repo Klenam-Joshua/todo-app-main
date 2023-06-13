@@ -3,10 +3,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
-    imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, imgFavicon, iconCheck,
+    imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, iconCheck,
     iconCross,
-    iconMoon,
-    iconSun
+
 }
     from '../../Components/Images';
 
@@ -15,13 +14,14 @@ import './Todo.css';
 
 
 
-const Todo = ({ modes, style, icon, loginToken, user }) => {
-    const navigate = useNavigate();
-
+const Todo = ({ modes, style, icon }) => {
 
 
     let isDarkMode = localStorage.getItem("DARKMODE");
-
+    const dataText = localStorage.getItem("LoginItem");
+    const dataJson = JSON.parse(dataText);
+    const [token, setToken] = useState(dataJson.usertoken);
+    const [user, setUser] = useState(dataJson.user);
     const [data, setData] = useState(null);
     const [filteredData, setFilteredData] = useState(null);
     const [notFound, setNotFound] = useState(false);
@@ -29,6 +29,18 @@ const Todo = ({ modes, style, icon, loginToken, user }) => {
     const [darkMode, setDarkMode] = useState(isDarkMode === "true");
 
     // =====function to handle darkMode toggle========
+    const navigate = useNavigate();
+
+    // console.log(token)
+    const isLoggedIn = () => {
+        if ((!token || !user.id)) {
+            navigate('/login');
+
+        }
+    }
+
+    isLoggedIn();
+
 
 
     const toggleMode = () => {
@@ -47,18 +59,18 @@ const Todo = ({ modes, style, icon, loginToken, user }) => {
 
 
     useEffect(() => {
-        if (!loginToken) {
-            navigate('/login');
-        }
+
         async function fetchTodos() {
-            const url = 'http://127.0.0.1:8001/api/';
-            const header = {
+            const url = 'http://127.0.0.1:8000/api/';
+            const headers = {
                 'content-Type': 'application/json',
-                'token': `Bearer:${token}`
+                'token': ` Bearer ${user.token}`,
+                'userId': user.id
+
             }
             try {
 
-                let response = await fetch(`${url}/todos`, { header });
+                let response = await fetch(`${url}tasks`, { headers });
                 if (response.status === 401) {
                     navigate('/login');
                 }
@@ -74,19 +86,25 @@ const Todo = ({ modes, style, icon, loginToken, user }) => {
                     let data = await response.json();
                     setData(data);
                     setFilteredData(data);
+                    console.log(data)
                 }
             }
             catch (error) {
                 console.log(error);
             }
         }
-
+        console.log(user.id)
+     let fetched =    setInterval(fetchTodos,5000);
+        return (()=>{
+              clearInterval(fetched);
+        })
     }, [])
 
 
     return (
         <main className="container" style={style ? style.body : console.log("loadin")}>
             <header style={style ? style.head : console.log("loadin")} id='header'>
+               
                 <div className="row  w-5  justify-between align-center" id='modeIconCont'>
                     <h1 className='text-light' id='title'>
                         TODO
@@ -112,13 +130,16 @@ const Todo = ({ modes, style, icon, loginToken, user }) => {
             </header>
             <section style={style ? style.todos : console.log('loading')}
                 className=" w-5  " id='contents'>
-                {/* 
-                                   <div className="circle  row justify-center align-center">
-                            <div className="checkContent">
-                                <img src={iconCheck} alt="check icon" />
-                            </div>
-                        </div>
-                         */}
+                    {
+                        filteredData?.map((item,index)=>{
+                                return (
+                                    <div key={index} className="row">
+                                          
+                                          <p>{item.title}</p>
+                                </div>
+                                )
+                        })
+                    }
             </section>
         </main >
     )
