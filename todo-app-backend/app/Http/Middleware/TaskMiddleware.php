@@ -18,7 +18,7 @@ class TaskMiddleware
            $id = $request->header("userId");
            $token =  $request->header("token");
         
-            if(!$token|| !$id ){
+            if(!$token && !$id ){
                     return abort(401,"unauthorized");
             }
 
