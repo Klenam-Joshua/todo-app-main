@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
-            $table->enum('status',['completed','active']);
+            $table->string('status');
             $table->integer('priority');
             $table->text("title");
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
