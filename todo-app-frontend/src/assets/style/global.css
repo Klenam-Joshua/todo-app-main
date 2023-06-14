@@ -1,12 +1,13 @@
 :root {
-    --checkBackground: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
+
     /* hovered  buttons in light mode */
     --brightBlue: hsl(220, 98%, 61%);
     --vLightGray: hsl(0, 0%, 98%);
     --vLightGrayishBlue: hsl(236, 32%, 92%);
-    --darkGrayishBlue: hsl(237, 9%, 61%);
-    --vDarkGrayishBlue: hsl(235, 19%, 35%);
+    --darkGrayishBlue: hsl(240, 9%, 61%);
+    --vDarkGrayishBlue: #484b6a;
 
+    --checkBackground: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
     /*===== dark theme colors ==========*/
 
 
@@ -14,8 +15,8 @@
     --vDarkDesaturatedBlue: hsl(235, 24%, 19%);
     --LightGrayishBlue: hsl(234, 39%, 85%);
     --LightGrayishBlue: hsl(236, 33%, 92%);
-    --DarkGrayishBlue: hsl(234, 11%, 52%);
-    --vDarkGrayishBlue: hsl(233, 14%, 35%);
+    --DarkGrayishBlue: #777a92;
+    --vDarkGrayishBlue: #4d5066;
     --vDarkGrayishBlue: hsl(237, 14%, 26%);
     --poppins: 'Poppins', sans-serif;
     --roboto: 'Roboto', sans-serif;
@@ -33,10 +34,20 @@ body,
 }
 
 html,
+
 body {
     background: var(--vLightGray);
 }
 
+html,
+body {
+    height: 100%;
+}
+
+
+#root {
+    height: 100%;
+}
 
 .row {
     display: flex;
@@ -54,7 +65,15 @@ body {
     justify-content: flex-end;
 }
 
+.justify-center {
+    justify-content: center;
+}
 
+.flex-dir-column {
+    flex-direction: column;
+}
+
+.flex_reverse {}
 
 .align-center {
     align-items: center;
@@ -67,11 +86,33 @@ body {
 }
 
 .w-5 {
-    width: 41.666%;
+    max-width: 33rem;
 }
 
 .w-4 {
     width: 33.3333%;
+}
+
+.w-7 {
+    width: 58.33333%
+}
+
+.w-8 {
+    width: 66.666666%
+}
+
+
+.w-9 {
+    width: 75%
+}
+
+
+.w-10 {
+    width: 83.333%
+}
+
+.w-12 {
+    width: 100%;
 }
 
 
@@ -80,4 +121,51 @@ body {
 
 .text-light {
     color: var(--vLightGray);
+}
+
+.text-red {
+    color: red;
+}
+
+.text_line-through {
+    text-decoration: line-through;
+}
+
+/* text alignment */
+.text_align_justify {
+    text-align: justify;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* borders */
+.border-none {
+    border: 0;
+}
+
+
+/* paddings */
+
+.pl-0_5 {
+    padding-left: 0.5rem;
+}
+
+.py-0_5 {
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    ;
+}
+
+.py-1 {
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.py-0_7 {
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
 }
