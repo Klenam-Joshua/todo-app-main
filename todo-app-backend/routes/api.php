@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class,'login']);
 Route::post('/signup',[AuthController::class,'signup']);
 Route::post('/logout',[AuthController::class,'logout']);
-Route::get('/tasks', [TasksController::class,'tasks'])->middleware(TasksMiddleware::class);
+Route::get('/tasks', [TasksController::class,'tasks'])->middleware(TaskMiddleware::class);
 Route::post('/createtask',[TasksController::class,'createTask'])->middleware(TaskMiddleware::class);
 Route::delete('/deletetodo/{id}',[TasksController::class,'destroy'])->middleware(TaskMiddleware::class);
 
