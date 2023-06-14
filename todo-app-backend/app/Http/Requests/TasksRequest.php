@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TasksRequest extends FormRequest
@@ -23,9 +25,15 @@ class TasksRequest extends FormRequest
     {
         return [
               'status' => ['required'],
-              'priority'=> [],
+              'priority'=> ['required'],
               'title'=>  ['required']
               
         ];
+    }
+
+    protected function failedValidation(Validator $validator){
+           throw new HttpResponseException(
+                 response()->json(['errors'=>$validator->errors(),400])
+           );
     }
 }
