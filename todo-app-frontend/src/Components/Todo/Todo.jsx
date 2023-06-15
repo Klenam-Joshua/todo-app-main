@@ -2,16 +2,16 @@ import React, { useReducer } from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DeleteRequest from '../apiRequests/DeleteRequest';
+import checkAuthorization from '../Authorization/LoginAuth';
+import updateStatus from '../apiRequests/updateStatus';
 
-import {
-    imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, iconCheck,
-    iconCross,
 
-}
+import { imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, iconCheck, iconCross, }
     from '../../Components/Images';
 
 import Login from '../Login/Login';
 import './Todo.css';
+import createTask from '../apiRequests/createTask';
 
 
 const Todo = ({ modes, style, icon }) => {
@@ -26,25 +26,39 @@ const Todo = ({ modes, style, icon }) => {
     const [notFound, setNotFound] = useState(false);
     const [responseError, setResponseError] = useState(false);
     const [filterOption, setFilterOption] = useState("allTasks");
-    const [darkMode, setDarkMode] = useState(isDarkMode === "true");
 
-    // =====function to handle darkMode toggle========
+    const [time, setTime] = useState(null)
+    const [darkMode, setDarkMode] = useState(isDarkMode === "true");
+  const [open, setOpen] = useState(false);
+    const [todoTitle, setTodoTitle] = useState(null);
+
+
+
+
     const navigate = useNavigate();
 
-    // console.log(token)
-    const isLoggedIn = () => {
-        if ((!token || !user.id)) {
-            navigate('/login');
+    checkAuthorization(token, user);
 
+
+
+
+
+    const createTodo = (e) => {
+        e.preventDefault();
+        const requestData = {
+            title: todoTitle,
+            status: "active",
+            priority: data.All.length + 1,
+         
         }
+        createTask(requestData, token, user.id)
     }
 
-    isLoggedIn();
 
     const setActiveButton = (option) => {
-
         return localStorage.getItem("filterOption") === option ? "active" : "option"
     }
+
 
 
 
@@ -123,12 +137,23 @@ const Todo = ({ modes, style, icon }) => {
     return (
         <main className="container" style={style ? style.body : console.log("loadin")}>
             <header style={style ? style.head : console.log("loadin")} id='header'>
+              <div id="userInfo">
+                     <p onClick={()=>setOpen(!open)}
+                     className="text-right ">{user.name}</p>
+                     <div className ={ open ? "exitbox d-block" : "d-none exitbox"}
+                      >
+                          <ul>
+                                <li>logout</li>
+                                <li>edit profile</li>
+                          </ul>
+                     </div>
 
+              </div>
                 <div className="row  w-5  justify-between align-center" id='modeIconCont'>
                     <h1 className='text-light' id='title'>
                         TODO
                     </h1>
-                    <div className="image-container"
+                    <div style ={style ? style.icons : console.log("loading")} className="image-container"
                         onClick={() => toggleMode()}
                     >
                         <img src={icon} alt="modeIcon" />
@@ -143,31 +168,46 @@ const Todo = ({ modes, style, icon }) => {
                         </div>
                     </div>
                     <div className='text-field_con'>
-                        <input
-                            style={style ? style.todosContainer : console.log('loading')}
-                            type="text" placeholder='Currently typing' />
+                        <form
+                            onSubmit={(e) => {
+                                createTodo(e)
+                            }}
+                        >
+                            <input
+                                style={style ? style.todosContainer : console.log('loading')}
+                                type="text" placeholder='Currently typing'
+                                onChange={(e) => setTodoTitle(e.target.value)}
+                            /> 
+                               <input
+                               onChange={(e)=>setTime(e.target.value)}
+                                type="time"  id="time_selector" />
+                               <span className="tooltip">pick start time</span>
+                        </form>
                     </div>
                 </div>
             </header>
-            <section style={style ? style.todosContainer : console.log('loading')}
+            <section style={style ? style.todosContainer : console.log("loading")}
                 className=" w-5  " id='contents'>
-                {filteredData?.length < 1 ? <p className='text-center'> nothing to show</p> :
+                {filteredData?.length < 1 ? <p className='text-center py-1'> nothing to show</p> :
 
 
                     filteredData?.map((item, index) => {
                         return (
 
                             item.status === 'completed' ?
-                                <div className=" row  py-1" draggable='true'  >
-                                    <div className="circle-con pl-0_5 row justify-center align-center">
-                                        <div style={style ? style.todos : console.log("oajd")} className="circle   border-none row justify-center align-center">
+                                <div style={style.todos} className=" row  py-1 task" draggable='true'  >
+                                    <div onClick={
+                                        () => updateStatus(navigate, token, user.id, item.id)
+                                    }
+                                        className="circle-con pl-0_5 row justify-center align-center">
+                                        <div style={style.circle} className="circle   border-none row justify-center align-center">
                                             <div className="checkContent">
                                                 <img src={iconCheck} alt="check icon" />
                                             </div>
                                         </div>
 
                                     </div>
-                                    <p style={style.todoTitle ? style.todoTitle : console.log('osdf')}
+                                    <p style={style.todoTitle}
                                         className="text_line-through  w-10 text_align_justify">
                                         {item.title}
                                     </p>
@@ -185,9 +225,10 @@ const Todo = ({ modes, style, icon }) => {
 
                                 </div>
                                 :
-                                <div className=" row  py-0_7" draggable='true'  >
+                                <div style={style.todos} className=" row  task py-1" draggable='true'  >
                                     <div className="circle-con pl-0_5 row justify-center align-center">
-                                        <div className="circle    row justify-center align-center">
+                                        <div onClick={() => updateStatus(navigate, token, user.id, item.id)}
+                                            className="circle    row justify-center align-center">
 
                                         </div>
 
