@@ -17,8 +17,16 @@ class TasksController extends Controller
      $userId = $request->header("userId");
       $user =  User::find($userId);
       
+        $completedTodo = Tasks::where('status','completed')->orderBy('priority','asc')->get();
+        $activeTodo = Tasks::where('status','active')->orderBy('priority','asc')->get();
+        $allTasks = Tasks::where('user_id',$userId)->orderBy('priority','asc')->get();
 
-       $data = Tasks::where('user_id',$userId)->orderBy('priority','asc')->get();
+        $data = [
+          "All" => $allTasks,
+          "Completed" => $completedTodo,
+          "Active" => $activeTodo,
+        ];
+
        return response()->json($data,200,$this->headers);
        
        // return response()->json($todos,200,$headers);
@@ -32,7 +40,8 @@ class TasksController extends Controller
                   'user_id' => (int)$id,
                   'status' => $data['status'],
                   'priority' => $data['priority'],
-                  'title'=>$data['title']
+                  'title'=>$data['title'],
+                  
              ];
            
             if(!Tasks::create($data2)){
@@ -77,8 +86,19 @@ class TasksController extends Controller
                }
     }
 
-    public function  update(){
-        
+    public function  updateStatus($id){
+            $task = Tasks::find($id);
+              if($task->status === "active"){
+                  $task->status = "completed";
+                  $task->save();
+              }
+             else{
+               $task->status = "active";
+               $task->save();
+              
+             }
+              return response()->json("status updated successfully",200);
+            // return response()->json("status update successfully",200);
     }
 
 
