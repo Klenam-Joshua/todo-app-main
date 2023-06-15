@@ -2,7 +2,8 @@
 
 const createTask = (data, token, userId) => {
     const createtask = async function () {
-
+        let responseError =false;
+    console.log(data)
         const url = 'http://127.0.0.1:8000/api/';
         const requestOptions = {
             method: "POST",
@@ -23,6 +24,7 @@ const createTask = (data, token, userId) => {
             }
 
             if (!response.ok) {
+                
                 responseError = true;
             }
 
