@@ -39,6 +39,7 @@ function App() {
         body: {
 
           backgroundColor: 'var(--vDarkBlue)',
+          transition:'0.8s background-color, background-image'
 
 
         },
@@ -48,15 +49,23 @@ function App() {
         },
         todosContainer: {
           backgroundColor: 'var( --vDarkDesaturatedBlue)',
-          boxShadow: 'none'
+          boxShadow: 'none',
+          transition:'0.8s background-color, background-image'
         }
         ,
         todos: {
+          borderBottom: '1px solid var(--vDarkGrayishBlue)'
+        },
+
+        circle: {
           background: 'var(--checkBackground)',
         },
         todoTitle: {
           color: 'var( --LightGrayishBlue)'
-        }
+        },
+   
+        icons:{animation: 'rotate_360 1s linear 0.1s 1'}
+
 
       }
       setStyle(style);
@@ -71,19 +80,29 @@ function App() {
         },
         body: {
           backgroundColor: 'white',
+          transition:'0.8s background-color, background-image'
 
         },
         todosContainer: {
           backgroundColor: 'var(--vLightGray)',
+          transition:'0.8s background-color, background-image'
 
         },
-        todos: {
+        circle: {
           background: 'var(--checkBackground)',
+        },
+
+        todos: {
+          borderBottom: '1px solid var(--LightGrayishBlue)',
+
         }
         ,
+
+
         todoTitle: {
           color: 'var(--DarkGrayishBlue)'
         }
+        ,icons:{animation: 'rotate_180 1 0.1s linear 1s'}
 
       }
 
