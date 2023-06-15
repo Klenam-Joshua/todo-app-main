@@ -52,6 +52,7 @@ const DeleteRequest = (token, userId, id) => {
     }
 
     deleteTask()
+    return responseText;
 
 
 }
