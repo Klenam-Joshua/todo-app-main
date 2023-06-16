@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
-const checkAuthorization = (token, user) => {
-    const navigate = useNavigate()
-    if ((!token || !user.id)) {
-        navigate('/login');
+const checkAuthorization = (navigate, data) => {
 
+    if (data) {
+        if ((!data.usertoken || !data.user.id)) {
+            navigate('/login');
+
+        }
+    }
+    else {
+        navigate('/login');
     }
 }
 
