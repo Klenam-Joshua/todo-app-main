@@ -1,6 +1,6 @@
 import React from 'react'
 
-const updatePriority = (token, userId, elementBeingDraggedId, elementBeingOnId) => {
+const updatePriority = (token, userId, elementBeingDraggedId, elementBeingDraggedOnId) => {
     const updatepriority = () => {
 
         const url = 'http://127.0.0.1:8000/api/';
@@ -15,7 +15,7 @@ const updatePriority = (token, userId, elementBeingDraggedId, elementBeingOnId) 
             },
             body: {
                 'elementBeingDraggedId': elementBeingDraggedId,
-                'elementBeingOnId': elementBeingOnId,
+                'elementBeingOnId': elementBeingDraggedOnId,
             }
         }
 
