@@ -13,12 +13,12 @@ class TasksController extends Controller
   protected $headers =['Access-Control-Allow-Origin'=> '*',
   'Access-Control-Allow-Methods'=>'POST'];
     public function tasks(Request $request){
-   
+
      $userId = $request->header("userId");
       $user =  User::find($userId);
-      
-        $completedTodo = Tasks::where('status','completed')->orderBy('priority','asc')->get();
-        $activeTodo = Tasks::where('status','active')->orderBy('priority','asc')->get();
+
+        $completedTodo = Tasks::where('status','completed')->where('user_id',$userId)->orderBy('priority','asc')->get();
+        $activeTodo = Tasks::where('status','active')->where('user_id',$userId)->orderBy('priority','asc')->get();
         $allTasks = Tasks::where('user_id',$userId)->orderBy('priority','asc')->get();
 
         $data = [
@@ -28,12 +28,12 @@ class TasksController extends Controller
         ];
 
        return response()->json($data,200,$this->headers);
-       
+
        // return response()->json($todos,200,$headers);
-             
+
     }
 
-    public function createTask(TasksRequest $request ){ 
+    public function createTask(TasksRequest $request ){
              $data = $request->validated();
              $id = $request->header('userId');
              $data2 = [
@@ -41,9 +41,9 @@ class TasksController extends Controller
                   'status' => $data['status'],
                   'priority' => $data['priority'],
                   'title'=>$data['title'],
-                  
+
              ];
-           
+
             if(!Tasks::create($data2)){
                 return response()->json("error creating task");
 
@@ -53,15 +53,6 @@ class TasksController extends Controller
 
     public function destroy(Request $request,$id){
           $userId = $request->header('userId');
-            $totalTodoCount = Tasks::where('user_id',$userId)->count();
-
-            $allTodo = Tasks::where('user_id',$userId)->get();
-            $lessData = Tasks::where("id", '<' ,$id)->where("user_id",$userId)->count();
-           
-            if(!$lessData){
-                 $lessData = 0;
-              }
-
 
               $tupleTodelete= Tasks::find($id);
                if( $tupleTodelete){
@@ -69,15 +60,6 @@ class TasksController extends Controller
 
 
 
-              for($i = $lessData +1; $i < $totalTodoCount ; $i++ )
-              {
-                   $id = $allTodo[$i]->id;
-                   $tuple = Tasks::find($id) ;
-                   $tuple->priority = $i;
-                   $tuple->save();
-                     
-
-                  }
 
                   return response()->json("deleted successfully");
                }
@@ -95,11 +77,46 @@ class TasksController extends Controller
              else{
                $task->status = "active";
                $task->save();
-              
+
              }
               return response()->json("status updated successfully",200);
             // return response()->json("status update successfully",200);
     }
+
+  public function updatePriority(Request $request){
+           $userId = $request->header('userId');
+            
+
+                 $taskAtTargetPostnId = $request->elementBeingDraggedOnId;
+                $taskAtTargetPosition =  Tasks::find($taskAtTargetPostnId);
+      
+
+
+                 $taskToReorderId = $request->elementBeingDraggedId;
+
+              $taskToReorder=  Tasks::find($taskToReorderId);
+
+              $totalTodoCount = Tasks::where('user_id',$userId)->count();
+
+                $allTodo = Tasks::where('user_id',$userId)->get();
+                $taskAtTargetPostnIndex = Tasks::where("id", '<' ,$taskAtTargetPostnId)->where("user_id",$userId)->count();
+
+                   for($i = $taskAtTargetPostnIndex ; $i < $totalTodoCount ; $i++ )
+                   {
+                        $id = $allTodo[$i]->id;
+                        $tuple = Tasks::find($id) ;
+                        $tuple->priority = $i + 2;
+                        $tuple->save();
+
+
+                       }
+                        //$taskToReorder->id = $taskAtTargetPostnIndex;
+                        $taskToReorder->priority = $taskAtTargetPostnIndex  + 1;
+                        $taskToReorder->save();
+
+                  //      ]);
+                  return  response()->json("rearranged successfully");
+  }
 
 
 }
