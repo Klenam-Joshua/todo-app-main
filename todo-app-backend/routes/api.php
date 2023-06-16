@@ -27,5 +27,6 @@ Route::post('/logout',[AuthController::class,'logout']);
 Route::get('/tasks', [TasksController::class,'tasks'])->middleware(TaskMiddleware::class);
 Route::post('/createtask',[TasksController::class,'createTask'])->middleware(TaskMiddleware::class);
 Route::delete('/deletetodo/{id}',[TasksController::class,'destroy'])->middleware(TaskMiddleware::class);
-
-
+Route::Put('/updatestatus/{id}',[TasksController::class,'updateStatus'])->middleware(TaskMiddleware::class);
+Route::Post('/updatepriority/',[TasksController::class,'updatePriority'])->middleware(TaskMiddleware::class);
+Route::Put('/clearallcompletes',[TasksController::class,'clearAllCompletes'])->middleware(TaskMiddleware::class);
