@@ -26,14 +26,15 @@ class TasksRequest extends FormRequest
         return [
               'status' => ['required'],
               'priority'=> ['required'],
-              'title'=>  ['required']
+              'title'=>  ['required'],
+             // 'startTime' =>[]
               
         ];
     }
 
     protected function failedValidation(Validator $validator){
            throw new HttpResponseException(
-                 response()->json(['errors'=>$validator->errors(),400])
+                 response()->json(['errors'=>$validator->errors()],400)
            );
     }
 }
