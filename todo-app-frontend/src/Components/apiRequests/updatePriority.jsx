@@ -1,4 +1,5 @@
 import React from 'react'
+import { json } from 'react-router-dom';
 
 const updatePriority = (token, userId, elementBeingDraggedId, elementBeingDraggedOnId) => {
     const updatepriority = () => {
@@ -6,17 +7,17 @@ const updatePriority = (token, userId, elementBeingDraggedId, elementBeingDragge
         const url = 'http://127.0.0.1:8000/api/';
 
         const requestData = {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'content-Type': 'application/json',
-                'token': ` Bearer ${token}`,
+                'token': `Bearer ${token}`,
                 'userId': userId,
 
             },
-            body: {
+            body: JSON.stringify({
                 'elementBeingDraggedId': elementBeingDraggedId,
-                'elementBeingOnId': elementBeingDraggedOnId,
-            }
+                'elementBeingDraggedOnId': elementBeingDraggedOnId,
+            })
         }
 
         fetch(`${url}updatepriority`, requestData)
@@ -30,9 +31,14 @@ const updatePriority = (token, userId, elementBeingDraggedId, elementBeingDragge
             }).then((message) => {
                 console.log(message)
             })
+        console.log(requestData);
     }
 
 
+    updatepriority()
 }
 
 export default updatePriority
+
+
+//export default updateIndex()
