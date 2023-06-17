@@ -87,36 +87,74 @@ class TasksController extends Controller
            $userId = $request->header('userId');
             
 
-                 $taskAtTargetPostnId = $request->elementBeingDraggedOnId;
-                $taskAtTargetPosition =  Tasks::find($taskAtTargetPostnId);
+          $taskAtTargetPostnId = $request->elementBeingDraggedOnId;
+          $taskAtTargetPosition =  Tasks::find($taskAtTargetPostnId)->priority;
       
+          $taskToReorderId = $request->elementBeingDraggedId;
+
+         $taskToReorder=  Tasks::find($taskToReorderId);
+
+         $totalTodoCount = Tasks::where('user_id',$userId)->count();
+
+         $allTodo = Tasks::where('user_id',$userId)->orderBy('priority')->get();
+
+        
+         function findIndex($positionId,$totalElementsCount, $elements){
+                $index = -1;
+
+                for($i = 0; $i< $totalElementsCount; $i++){
+                  if($elements[$i]["id"] == $positionId){
+                          $index = $i;
+                  }
+              }
+               return  $index;
+            }
+
+           $taskAtTargetPostnIndex = findIndex($taskAtTargetPostnId,$totalTodoCount,$allTodo);
+            $taskToReorderIndex =  findIndex($taskToReorderId,$totalTodoCount,$allTodo);
+         
+             
+            if($taskAtTargetPostnIndex  <  $taskToReorderIndex){
+                      for($i = $taskAtTargetPostnIndex ; $i < $totalTodoCount ; $i++ )
+            {
+                 $id = $allTodo[$i]->id;
+                 $tuple = Tasks::find($id) ;
+                 $tuple->priority = $i + 2;
+                 $tuple->save();
 
 
-                 $taskToReorderId = $request->elementBeingDraggedId;
+                }
+                
+                 $taskToReorder->priority = $taskAtTargetPostnIndex +1;
+                 $taskToReorder->save();
 
-              $taskToReorder=  Tasks::find($taskToReorderId);
+                 return ("working yea yeah");
+            }
+            
+            else{
 
-              $totalTodoCount = Tasks::where('user_id',$userId)->count();
+              for($i = $taskAtTargetPostnIndex ;  $i >=0; $i-- )
+              {
+                   $id = $allTodo[$i]->id;
+                   $tuple = Tasks::find($id) ;
+                   $tuple->priority = $i;
+                   $tuple->save();
+  
+  
+                  }
+                
+                   $taskToReorder->priority = $taskAtTargetPostnIndex + 1;
+                   $taskToReorder->save();
+  
 
-                $allTodo = Tasks::where('user_id',$userId)->get();
-                $taskAtTargetPostnIndex = Tasks::where("id", '<' ,$taskAtTargetPostnId)->where("user_id",$userId)->count();
-
-                   for($i = $taskAtTargetPostnIndex ; $i < $totalTodoCount ; $i++ )
-                   {
-                        $id = $allTodo[$i]->id;
-                        $tuple = Tasks::find($id) ;
-                        $tuple->priority = $i + 2;
-                        $tuple->save();
-
-
-                       }
-                        //$taskToReorder->id = $taskAtTargetPostnIndex;
-                        $taskToReorder->priority = $taskAtTargetPostnIndex  + 1;
-                        $taskToReorder->save();
-
-                  //      ]);
-                  return  response()->json("rearranged successfully");
+            
+            }
+                 
+                
+            return  response()->json("priority updated successfully",200);
   }
 
+   public function clearAllCompletes(Request  $request){
 
+   }
 }
