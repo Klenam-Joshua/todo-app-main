@@ -5,7 +5,7 @@
     --vLightGray: hsl(0, 0%, 98%);
     --vLightGrayishBlue: hsl(236, 32%, 92%);
     --darkGrayishBlue: hsl(240, 9%, 61%);
-    --vDarkGrayishBlue: #484b6a;
+    --vDarkGrayishBlue: hsl(235, 19%, 35%);
 
     --checkBackground: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
     /*===== dark theme colors ==========*/
@@ -15,8 +15,8 @@
     --vDarkDesaturatedBlue: hsl(235, 24%, 19%);
     --LightGrayishBlue: hsl(234, 39%, 85%);
     --LightGrayishBlue: hsl(236, 33%, 92%);
-    --DarkGrayishBlue: #777a92;
-    --vDarkGrayishBlue: #4d5066;
+    --DarkGrayishBlue: hsl(233, 11%, 52%);
+    --vDarkGrayishBlue: hsl(233, 14%, 35%);
     --vDarkGrayishBlue: hsl(237, 14%, 26%);
     --poppins: 'Poppins', sans-serif;
     --roboto: 'Roboto', sans-serif;
@@ -37,6 +37,7 @@ html,
 
 body {
     background: var(--vLightGray);
+
 }
 
 html,
@@ -140,6 +141,10 @@ body {
     text-align: center;
 }
 
+.text-right {
+    text-align: right;
+}
+
 /* borders */
 .border-none {
     border: 0;
@@ -167,5 +172,36 @@ body {
 
 .py-0_7 {
     padding-top: 0.7rem;
+
     padding-bottom: 0.7rem;
+}
+
+
+
+@keyframes rotate_360 {
+    to {
+        transform: rotate(360deg);
+        background: blue;
+        opacity: 0.4;
+    }
+
+}
+
+@keyframes rotate_180 {
+    to {
+        transform: rotate(180deg);
+    }
+}
+
+
+.d-block {
+    display: block;
+}
+
+.d-none {
+    display: none;
+}
+
+.border_solid_blue {
+    border: 1px solid var(--brightBlue);
 }
