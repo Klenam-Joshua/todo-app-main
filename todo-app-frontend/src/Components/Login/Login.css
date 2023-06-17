@@ -1,0 +1,71 @@
+.layout_container {
+    height: 100%;
+    background: url(../../assets/images/bg-desktop-dark.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.wrapper {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--vLightGray);
+    font-family: var(--poppins);
+    color: var(--vDarkGrayishBlue);
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+
+
+
+}
+
+.wrapper h2 {
+    text-align: center;
+}
+
+.wrapper .form_container .row {
+    margin-top: 0.2rem;
+}
+
+.wrapper .form_container .row input {
+    display: block;
+    width: 100%;
+    margin: auto;
+    outline: none;
+    border: 1px groove var(--brightBlue);
+    height: 2.3rem;
+    transition: 0.1s all;
+    border-radius: 0.4rem;
+
+
+}
+
+
+
+.password_row {
+    width: 45%;
+
+}
+
+#sbtn_container {
+    margin-top: 1.2rem;
+    margin-bottom: 2rem;
+
+
+}
+
+#sbtn_container input {
+    background-color: transparent;
+    border: 2px solid var(--brightBlue);
+    cursor: pointer;
+}
+
+.wrapper p {
+    text-align: center;
+}
+
+.wrapper p a {
+    text-decoration: none;
+    padding-left: 1rem;
+}
