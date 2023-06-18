@@ -1,11 +1,9 @@
-import React, { useReducer } from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DeleteRequest from '../apiRequests/DeleteRequest';
 import checkAuthorization from '../Authorization/LoginAuth';
 import updateStatus from '../apiRequests/updateStatus';
-
-
+import updatePriority from '../apiRequests/updatePriority';
 import { imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, iconCheck, iconCross, }
     from '../../Components/Images';
 
@@ -15,32 +13,57 @@ import createTask from '../apiRequests/createTask';
 
 
 const Todo = ({ modes, style, icon }) => {
+    const navigate = useNavigate();
 
     let isDarkMode = localStorage.getItem("DARKMODE");
     const dataText = localStorage.getItem("LoginItem");
     const dataJson = JSON.parse(dataText);
-    const [token, setToken] = useState(dataJson.usertoken);
-    const [user, setUser] = useState(dataJson.user);
+    useEffect(() => {
+        checkAuthorization(navigate, dataJson);
+    }, [])
+    const [token, setToken] = useState(dataJson?.usertoken);
+    const [user, setUser] = useState(dataJson?.user);
     const [data, setData] = useState(null);
     const [filteredData, setFilteredData] = useState(null);
     const [notFound, setNotFound] = useState(false);
     const [responseError, setResponseError] = useState(false);
     const [filterOption, setFilterOption] = useState("allTasks");
-
     const [time, setTime] = useState(null)
     const [darkMode, setDarkMode] = useState(isDarkMode === "true");
-  const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     const [todoTitle, setTodoTitle] = useState(null);
+    //const [style1, setStyle1] = useState({ background: 'green ' })
+
+    /**========drag and drop===== */
+
+    const [beingDragged, setBeingDragged] = useState(null);
+    const [dragEntered, setDragEntered] = useState(-1);
+    const [dropped, setDropped] = useState(null);
+    const [beingDraggedId, setBeingDraggedId] = useState(-1);
+
+    const handleDragEnter = (e, id) => {
+        console.log("drag entered")
+        console.log(beingDragged)
+        setDragEntered(id)
 
 
+    }
+    const handleDragOver = (e) => {
+        e.preventDefault()
+
+    }
+
+    const handleDragDrop = (itemId) => {
+        setDragEntered(-1);
+
+        // console.log(beingDraggedId, itemId);
+        // updateIndex(filteredData, beingDraggedId, itemId)
+        updatePriority(token, user.id, beingDraggedId, itemId);
+
+    }
 
 
-    const navigate = useNavigate();
-
-    checkAuthorization(token, user);
-
-
-
+    /**end of drag and drop  */
 
 
     const createTodo = (e) => {
@@ -49,7 +72,7 @@ const Todo = ({ modes, style, icon }) => {
             title: todoTitle,
             status: "active",
             priority: data.All.length + 1,
-         
+
         }
         createTask(requestData, token, user.id)
     }
@@ -59,22 +82,17 @@ const Todo = ({ modes, style, icon }) => {
         return localStorage.getItem("filterOption") === option ? "active" : "option"
     }
 
-
-
-
     const toggleMode = () => {
         setDarkMode(prevMode => !prevMode);
 
     }
+
+
     useEffect(
         () => {
             modes(darkMode);
 
         }, [darkMode])
-
-
-
-
     useEffect(() => {
 
         async function fetchTodos() {
@@ -82,7 +100,7 @@ const Todo = ({ modes, style, icon }) => {
             const headers = {
                 'content-Type': 'application/json',
                 'token': ` Bearer ${token}`,
-                'userId': user.id
+                'userId': user?.id
 
             }
             try {
@@ -102,7 +120,7 @@ const Todo = ({ modes, style, icon }) => {
                 else if (response.status === 200) {
                     let data = await response.json();
                     setData(data);
-                    // console.log(currentFilteredData + "ji")
+                    // console.log(InitialFilteredData + "ji")
                     console.log(filterOption)
                     let filterOption1 = localStorage.getItem("filterOption");
                     setFilteredData(data[filterOption1]);
@@ -121,9 +139,6 @@ const Todo = ({ modes, style, icon }) => {
         })
     }, [])
 
-    // /deleting todo
-
-
 
 
     const conditions = {
@@ -132,28 +147,37 @@ const Todo = ({ modes, style, icon }) => {
         Active: function () { setFilteredData(data.Active) }
     }
 
+
+    /**=============logout function =========== */
+    const logout = () => {
+        localStorage.removeItem("LoginItem");
+        navigate('/login');
+    }
+
     const options = ["All", "Completed", "Active"];
 
     return (
         <main className="container" style={style ? style.body : console.log("loadin")}>
             <header style={style ? style.head : console.log("loadin")} id='header'>
-              <div id="userInfo">
-                     <p onClick={()=>setOpen(!open)}
-                     className="text-right ">{user.name}</p>
-                     <div className ={ open ? "exitbox d-block" : "d-none exitbox"}
-                      >
-                          <ul>
-                                <li>logout</li>
-                                <li>edit profile</li>
-                          </ul>
-                     </div>
+                <div id="userInfo">
+                    <p onClick={() => setOpen(!open)}
+                        className="text-right ">{user?.name}</p>
+                    <div className={open ? "exitbox d-block" : "d-none exitbox"}
+                    >
+                        <ul>
+                            <li role="button"
+                                onClick={() => logout()}
+                            >logout</li>
+                            <li>edit profile</li>
+                        </ul>
+                    </div>
 
-              </div>
+                </div>
                 <div className="row  w-5  justify-between align-center" id='modeIconCont'>
                     <h1 className='text-light' id='title'>
                         TODO
                     </h1>
-                    <div style ={style ? style.icons : console.log("loading")} className="image-container"
+                    <div style={style ? style.icons : console.log("loading")} className="image-container"
                         onClick={() => toggleMode()}
                     >
                         <img src={icon} alt="modeIcon" />
@@ -175,13 +199,13 @@ const Todo = ({ modes, style, icon }) => {
                         >
                             <input
                                 style={style ? style.todosContainer : console.log('loading')}
-                                type="text" placeholder='Currently typing'
+                                type="text" placeholder='Create new todo'
                                 onChange={(e) => setTodoTitle(e.target.value)}
-                            /> 
-                               <input
-                               onChange={(e)=>setTime(e.target.value)}
-                                type="time"  id="time_selector" />
-                               <span className="tooltip">pick start time</span>
+                            />
+                            <input
+                                onChange={(e) => setTime(e.target.value)}
+                                type="time" id="time_selector" />
+                            <span className="tooltip">pick start time</span>
                         </form>
                     </div>
                 </div>
@@ -195,10 +219,18 @@ const Todo = ({ modes, style, icon }) => {
                         return (
 
                             item.status === 'completed' ?
-                                <div style={style.todos} className=" row  py-1 task" draggable='true'  >
-                                    <div onClick={
-                                        () => updateStatus(navigate, token, user.id, item.id)
-                                    }
+                                <div onDragStart={(e) => {
+                                    setBeingDragged(e.target)
+
+                                    setBeingDraggedId(item.id)
+                                }}
+                                    onClick={() => updateStatus(navigate, token, user.id, item.id)}
+                                    onDragEnter={(e) => handleDragEnter(e, index)}
+                                    onDragOver={(e) => handleDragOver(e)}
+                                    onDrop={() => handleDragDrop(item.id)}
+
+                                    style={style.todos} className={dragEntered === index ? " row  py-1 task  border_solid_blue" : "row  py-1 task"} draggable='true' >
+                                    <div
                                         className="circle-con pl-0_5 row justify-center align-center">
                                         <div style={style.circle} className="circle   border-none row justify-center align-center">
                                             <div className="checkContent">
@@ -216,18 +248,27 @@ const Todo = ({ modes, style, icon }) => {
                                             () => {
                                                 DeleteRequest(token, user.id, item.id);
 
-                                                // x.then((e) => alert(e))
 
                                             }}>
-                                            <img src={iconCross} alt="icon-cross" />
+                                            <img src={iconCross} alt="icon-cross" className='icon-cross' />
                                         </span>
                                     </div>
 
                                 </div>
                                 :
-                                <div style={style.todos} className=" row  task py-1" draggable='true'  >
+                                <div
+                                    onClick={() => updateStatus(navigate, token, user.id, item.id)}
+                                    onDragStart={(e) => {
+                                        setBeingDragged(e.target)
+                                        setBeingDraggedId(item.id)
+                                    }}
+                                    onDragEnter={(e) => handleDragEnter(e, index)}
+                                    onDragOver={(e) => handleDragOver(e)}
+                                    onDrop={() => handleDragDrop(item.id)}
+
+                                    style={style.todos} className={dragEntered === index ? " row  py-1 task  border_solid_blue" : "row  py-1 task"} draggable='true'  >
                                     <div className="circle-con pl-0_5 row justify-center align-center">
-                                        <div onClick={() => updateStatus(navigate, token, user.id, item.id)}
+                                        <div
                                             className="circle    row justify-center align-center">
 
                                         </div>
@@ -264,9 +305,9 @@ const Todo = ({ modes, style, icon }) => {
 
                     <div className="options">
                         {
-                            options.map((option) => {
+                            options.map((option, index) => {
                                 return (
-                                    <span className={setActiveButton(option)}
+                                    <span key={index} className={setActiveButton(option)}
 
                                         onClick={() => {
                                             conditions[option](); localStorage.setItem("filterOption", option);
