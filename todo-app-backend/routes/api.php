@@ -29,4 +29,4 @@ Route::post('/createtask',[TasksController::class,'createTask'])->middleware(Tas
 Route::delete('/deletetodo/{id}',[TasksController::class,'destroy'])->middleware(TaskMiddleware::class);
 Route::Put('/updatestatus/{id}',[TasksController::class,'updateStatus'])->middleware(TaskMiddleware::class);
 Route::Post('/updatepriority/',[TasksController::class,'updatePriority'])->middleware(TaskMiddleware::class);
-Route::Put('/clearallcompletes',[TasksController::class,'clearAllCompletes'])->middleware(TaskMiddleware::class);
+Route::delete('/clearallcompletes',[TasksController::class,'clearAllCompletes'])->middleware(TaskMiddleware::class);
