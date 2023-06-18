@@ -29,9 +29,9 @@ const updatePriority = (token, userId, elementBeingDraggedId, elementBeingDragge
                     return response.json();
                 }
             }).then((message) => {
-                console.log(message)
+
             })
-        console.log(requestData);
+
     }
 
 
