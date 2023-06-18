@@ -10,24 +10,33 @@ use Illuminate\Support\Facades\Auth;
 
 
 
-
 class AuthController extends Controller
 {
-    
+     protected $headers =['Access-Control-Allow-Origin'=> '*',
+     'Access-Control-Allow-Methods'=>'POST'];
   //310300
      public function signup(SignUpRequest  $request){
-         
+        $data = $request->validated();
                 // Users::create($request->validated())  ;
-                // return response()->json(200, "user created successfully");
-                $data = $request->validated();
-                User::create([
-                     'name' => $data['username'],
-                     'email' => $data['useremail'],
-                     'password'=> bcrypt($data['userpassword'])
-                ]);
+             $findUser = User::where('email',$data["useremail"])->count() ;
+              if($findUser >=1){
+                return  response()->json("user already exist",409,$this->headers);
+               
+              }
+              else{
 
-                  return response()->json("user created successfully");
-            
+                $user =  User::create([
+                        'name' => $data['username'],
+                        'email' => $data['useremail'],
+                        'contact'=>$data['userContact'],
+                        'password'=> bcrypt($data['userpassword'])
+                   ]);
+                       
+                   $token = $user->createToken("signup")->plainTextToken;
+                   $userData = ['user'=> $user, 'usertoken'=>$token];
+   
+                     return response()->json($userData,200,$this->headers);
+              }
                
       }
 
@@ -36,7 +45,7 @@ class AuthController extends Controller
      public  function login(LoginRequest $request){
                 $loginCredentials = $request->validated();
                  if(!Auth::attempt($loginCredentials)){
-                         return response()->json("invalid email or password");
+                         return response()->json("invalid email or password",401,$this->headers);
                  }
 
                  $user = Auth::user();
@@ -45,7 +54,7 @@ class AuthController extends Controller
                  return response()->json([
                         'user' => $user,
                         'usertoken' => $token
-                 ], 201);
+                 ],200);
 
     }
 
