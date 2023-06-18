@@ -155,6 +155,17 @@ class TasksController extends Controller
   }
 
    public function clearAllCompletes(Request  $request){
+         $user_id = $request->header("userId");
+     
+         $completedTodos = Tasks::where('status','completed')->where("user_id",$user_id)->get();
+         $completedTodosCount = Tasks::where('status','completed')->where("user_id",$user_id)->count();
 
+         for($i = 0; $i < $completedTodosCount; $i++){
+                
+          $id = $completedTodos[$i]->id;
+          $todo = Tasks::find($id);
+          $todo->delete();
+         }
+         return  response()->json(["deleted Successfully"],200);
    }
 }
