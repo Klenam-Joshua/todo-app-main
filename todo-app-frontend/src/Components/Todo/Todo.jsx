@@ -4,6 +4,7 @@ import DeleteRequest from '../apiRequests/DeleteRequest';
 import checkAuthorization from '../Authorization/LoginAuth';
 import updateStatus from '../apiRequests/updateStatus';
 import updatePriority from '../apiRequests/updatePriority';
+import deleteCompletedTasks from '../apiRequests/clearAllRequest';
 import { imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, iconCheck, iconCross, }
     from '../../Components/Images';
 
@@ -27,12 +28,12 @@ const Todo = ({ modes, style, icon }) => {
     const [filteredData, setFilteredData] = useState(null);
     const [notFound, setNotFound] = useState(false);
     const [responseError, setResponseError] = useState(false);
-    const [filterOption, setFilterOption] = useState("allTasks");
+    const [filterOption, setFilterOption] = useState("All");
     const [time, setTime] = useState(null)
     const [darkMode, setDarkMode] = useState(isDarkMode === "true");
     const [open, setOpen] = useState(false);
     const [todoTitle, setTodoTitle] = useState(null);
-    //const [style1, setStyle1] = useState({ background: 'green ' })
+
 
     /**========drag and drop===== */
 
@@ -42,8 +43,7 @@ const Todo = ({ modes, style, icon }) => {
     const [beingDraggedId, setBeingDraggedId] = useState(-1);
 
     const handleDragEnter = (e, id) => {
-        console.log("drag entered")
-        console.log(beingDragged)
+
         setDragEntered(id)
 
 
@@ -55,15 +55,12 @@ const Todo = ({ modes, style, icon }) => {
 
     const handleDragDrop = (itemId) => {
         setDragEntered(-1);
-
-        // console.log(beingDraggedId, itemId);
-        // updateIndex(filteredData, beingDraggedId, itemId)
         updatePriority(token, user.id, beingDraggedId, itemId);
 
     }
 
+    /** end of drag and drop */
 
-    /**end of drag and drop  */
 
 
     const createTodo = (e) => {
@@ -120,11 +117,15 @@ const Todo = ({ modes, style, icon }) => {
                 else if (response.status === 200) {
                     let data = await response.json();
                     setData(data);
-                    // console.log(InitialFilteredData + "ji")
-                    console.log(filterOption)
+
                     let filterOption1 = localStorage.getItem("filterOption");
-                    setFilteredData(data[filterOption1]);
-                    //console.log(data)
+                    if (!filterOption) {
+                        setFilteredData(data["All"]);
+                    }
+                    else {
+                        setFilteredData(data[filterOption1]);
+                    }
+
                 }
             }
             catch (error) {
@@ -133,7 +134,7 @@ const Todo = ({ modes, style, icon }) => {
         }
 
         fetchTodos();
-        let interval = setInterval(fetchTodos, 1000);
+        let interval = setInterval(fetchTodos, 1500);
         return (() => {
             clearInterval(interval);
         })
@@ -157,8 +158,8 @@ const Todo = ({ modes, style, icon }) => {
     const options = ["All", "Completed", "Active"];
 
     return (
-        <main className="container" style={style ? style.body : console.log("loadin")}>
-            <header style={style ? style.head : console.log("loadin")} id='header'>
+        <main className="container" style={style ? style.body : {}}>
+            <header style={style ? style.head : {}} id='header'>
                 <div id="userInfo">
                     <p onClick={() => setOpen(!open)}
                         className="text-right ">{user?.name}</p>
@@ -177,7 +178,7 @@ const Todo = ({ modes, style, icon }) => {
                     <h1 className='text-light' id='title'>
                         TODO
                     </h1>
-                    <div style={style ? style.icons : console.log("loading")} className="image-container"
+                    <div style={style ? style.icons : {}} className="image-container"
                         onClick={() => toggleMode()}
                     >
                         <img src={icon} alt="modeIcon" />
@@ -185,7 +186,7 @@ const Todo = ({ modes, style, icon }) => {
 
                 </div>
 
-                <div style={style ? style.todosContainer : console.log('loading')} className="row  w-5  justify-between " id='search_bar_con'>
+                <div style={style ? style.todosContainer : {}} className="row  w-5  justify-between " id='search_bar_con'>
                     <div className="circle-con   row justify-center align-center">
                         <div className="circle  " id="circle1">
 
@@ -198,7 +199,7 @@ const Todo = ({ modes, style, icon }) => {
                             }}
                         >
                             <input
-                                style={style ? style.todosContainer : console.log('loading')}
+                                style={style ? style.todosContainer : {}}
                                 type="text" placeholder='Create new todo'
                                 onChange={(e) => setTodoTitle(e.target.value)}
                             />
@@ -210,27 +211,30 @@ const Todo = ({ modes, style, icon }) => {
                     </div>
                 </div>
             </header>
-            <section style={style ? style.todosContainer : console.log("loading")}
+            <section style={style ? style.todosContainer : {}}
                 className=" w-5  " id='contents'>
-                {filteredData?.length < 1 ? <p className='text-center py-1'> nothing to show</p> :
+                {filteredData?.length < 1 ? <p className='text-center py-1' style={style ? style.todosContainer : {}}> nothing to show</p> :
 
 
                     filteredData?.map((item, index) => {
                         return (
 
                             item.status === 'completed' ?
-                                <div onDragStart={(e) => {
-                                    setBeingDragged(e.target)
+                                <div
+                                    key={index}
+                                    onDragStart={(e) => {
+                                        setBeingDragged(e.target)
 
-                                    setBeingDraggedId(item.id)
-                                }}
-                                    onClick={() => updateStatus(navigate, token, user.id, item.id)}
+                                        setBeingDraggedId(item.id)
+                                    }}
+
                                     onDragEnter={(e) => handleDragEnter(e, index)}
                                     onDragOver={(e) => handleDragOver(e)}
                                     onDrop={() => handleDragDrop(item.id)}
 
                                     style={style.todos} className={dragEntered === index ? " row  py-1 task  border_solid_blue" : "row  py-1 task"} draggable='true' >
                                     <div
+                                        onClick={() => updateStatus(navigate, token, user.id, item.id)}
                                         className="circle-con pl-0_5 row justify-center align-center">
                                         <div style={style.circle} className="circle   border-none row justify-center align-center">
                                             <div className="checkContent">
@@ -239,7 +243,9 @@ const Todo = ({ modes, style, icon }) => {
                                         </div>
 
                                     </div>
-                                    <p style={style.todoTitle}
+                                    <p
+                                        onClick={() => updateStatus(navigate, token, user.id, item.id)}
+                                        style={style.todoTitle}
                                         className="text_line-through  w-10 text_align_justify">
                                         {item.title}
                                     </p>
@@ -257,7 +263,8 @@ const Todo = ({ modes, style, icon }) => {
                                 </div>
                                 :
                                 <div
-                                    onClick={() => updateStatus(navigate, token, user.id, item.id)}
+                                    key={index}
+
                                     onDragStart={(e) => {
                                         setBeingDragged(e.target)
                                         setBeingDraggedId(item.id)
@@ -267,21 +274,24 @@ const Todo = ({ modes, style, icon }) => {
                                     onDrop={() => handleDragDrop(item.id)}
 
                                     style={style.todos} className={dragEntered === index ? " row  py-1 task  border_solid_blue" : "row  py-1 task"} draggable='true'  >
-                                    <div className="circle-con pl-0_5 row justify-center align-center">
+                                    <div
+                                        onClick={() => updateStatus(navigate, token, user.id, item.id)}
+                                        className="circle-con pl-0_5 row justify-center align-center">
                                         <div
                                             className="circle    row justify-center align-center">
 
                                         </div>
 
                                     </div>
-                                    <p style={style.todoTitle ? style.todoTitle : console.log('osdf')}
+                                    <p
+                                        onClick={() => updateStatus(navigate, token, user.id, item.id)}
+                                        style={style.todoTitle ? style.todoTitle : {}}
                                         className="  w-10 text_align_justify">
                                         {item.title}
                                     </p>
                                     <div className="cross-con ">
                                         <span onClick={
                                             () => {
-                                                //  console.log(user)
                                                 DeleteRequest(token, user.id, item.id)
 
                                             }
@@ -303,11 +313,16 @@ const Todo = ({ modes, style, icon }) => {
                         </span>
                     </div>
 
-                    <div className="options">
+                    <div
+                        style={style ? style.todosContainer : {}}
+                        className="options">
                         {
                             options.map((option, index) => {
                                 return (
-                                    <span key={index} className={setActiveButton(option)}
+                                    <span
+
+
+                                        key={index} className={setActiveButton(option)}
 
                                         onClick={() => {
                                             conditions[option](); localStorage.setItem("filterOption", option);
@@ -319,7 +334,9 @@ const Todo = ({ modes, style, icon }) => {
                             })
                         }
                     </div>
-                    <div className="clear_con">
+                    <div
+                        onClick={() => deleteCompletedTasks(token, user.id)}
+                        className="clear_con">
                         <span role="button" className='text-center'>
                             clear Completed
                         </span>
