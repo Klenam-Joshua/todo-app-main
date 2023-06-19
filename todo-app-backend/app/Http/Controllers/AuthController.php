@@ -45,7 +45,7 @@ class AuthController extends Controller
      public  function login(LoginRequest $request){
                 $loginCredentials = $request->validated();
                  if(!Auth::attempt($loginCredentials)){
-                         return response()->json("invalid email or password",401,$this->headers);
+                         return response()->json("invalid email or password",400,$this->headers);
                  }
 
                  $user = Auth::user();
