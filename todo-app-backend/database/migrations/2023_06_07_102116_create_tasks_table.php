@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('status');
             $table->integer('priority');
             $table->text("title");
-          //  $table->time("startTime");
+            $table->string("startTime");
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
