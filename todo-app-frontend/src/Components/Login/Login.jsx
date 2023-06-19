@@ -79,7 +79,7 @@ const Login = () => {
     return (
 
         <main style={isDarkMode ? { backgroundImage: `url(${imgBgDesktopLight})` } : { backgroundImage: `url(${imgBgDesktopDark})` }}>
-            <div className='wrapper   w-4' id=''>
+            <div className='wrapper   w-4' id='loginWrapper'>
                 <h2>login</h2>
                 <p className='text-red'> {unauthorized ? "invalid  email or password" : ""}</p>
                 <div className="form_container ">
