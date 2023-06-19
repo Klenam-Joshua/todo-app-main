@@ -41,6 +41,7 @@ class TasksController extends Controller
                   'status' => $data['status'],
                   'priority' => $data['priority'],
                   'title'=>$data['title'],
+                  'startTime' =>$data['startTime']
 
              ];
 
@@ -128,12 +129,12 @@ class TasksController extends Controller
                  $taskToReorder->priority = $taskAtTargetPostnIndex +1;
                  $taskToReorder->save();
 
-                 return ("working yea yeah");
+                 
             }
             
             else{
 
-              for($i = $taskAtTargetPostnIndex ;  $i >=0; $i-- )
+              for($i = $taskAtTargetPostnIndex ;  $i >$taskToReorderIndex +1; $i-- )
               {
                    $id = $allTodo[$i]->id;
                    $tuple = Tasks::find($id) ;
