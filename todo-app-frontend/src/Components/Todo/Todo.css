@@ -34,9 +34,16 @@ main {
     position: absolute;
     right: 0;
     border-radius: 0.4rem;
-    top: 2rem;
+    top: 2.7rem;
 
-    ;
+}
+
+#logoutIcon {
+
+    display: inline-block;
+    position: relative;
+    top: 0.5rem;
+    left: 1rem;
 }
 
 .exitbox ul li {
@@ -148,6 +155,11 @@ main {
     border: 1px solid var(--vDarkGrayishBlue)
 }
 
+/* 
+.circle:hover {
+    border: 2px groove var(--checkBackground) */
+
+
 #contents {
     /*  var(--vLightGray) */
     margin: auto;
@@ -192,7 +204,8 @@ main {
     cursor: pointer;
 }
 
-.option {
+.option,
+.instruction {
     font-size: 0.9rem;
     cursor: pointer;
     color: var(--DarkGrayishBlue)
@@ -211,6 +224,12 @@ main {
 }
 
 @media screen and (max-width:422px) {
+    #header {
+
+        min-height: 30vh;
+        padding-top: 1.5rem;
+    }
+
     #options_con {
         grid-template-columns: 1fr 1fr;
         position: relative;
