@@ -1,6 +1,7 @@
 import { useState, React } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { imgBgDesktopDark, imgBgDesktopLight } from '../Images';
+import './Login.css';
 
 const Login = () => {
     let isDarkMode = localStorage.getItem("DARKMODE");
@@ -36,7 +37,7 @@ const Login = () => {
                     method: 'POST',
                     body: JSON.stringify(data)
                 });
-                console.log(response.status)
+
 
                 if (response.status === 404) {
 
@@ -70,7 +71,7 @@ const Login = () => {
             }
             catch (error) {
                 // console.log(response.status)
-                console.log("error" + error + "jo");
+                console.log("error" + error);
             }
         }
         handlelogin();
