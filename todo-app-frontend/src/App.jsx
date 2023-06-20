@@ -1,7 +1,6 @@
 import Todo from './Components/Todo/Todo';
 import Signup from './Components/Signup/Signup';
 import Login from './Components/Login/Login';
-import GuestLayout from './Components/GuestLayout/GuestLayout';
 import './assets/style/global.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useEffect } from 'react'
@@ -23,15 +22,12 @@ function App() {
 
   const [modeIcon, setModeIcon] = useState(iconMoon);
   const [size, setSize] = useState(window.innerWidth);
-  const [style, setStyle] = useState()
+  const [style, setStyle] = useState({})
 
 
 
   const modes = (darkMode) => {
-    console.log(darkMode, "what came in")
     if (darkMode) {
-
-      console.log(darkMode + "the one inside")
 
       setModeIcon(iconSun)
 
@@ -39,7 +35,7 @@ function App() {
         body: {
 
           backgroundColor: 'var(--vDarkBlue)',
-          transition:'0.8s background-color, background-image'
+          transition: '0.8s background-color, background-image'
 
 
         },
@@ -50,7 +46,8 @@ function App() {
         todosContainer: {
           backgroundColor: 'var( --vDarkDesaturatedBlue)',
           boxShadow: 'none',
-          transition:'0.8s background-color, background-image'
+
+          transition: '0.8s background-color, background-image'
         }
         ,
         todos: {
@@ -63,8 +60,16 @@ function App() {
         todoTitle: {
           color: 'var( --LightGrayishBlue)'
         },
-   
-        icons:{animation: 'rotate_360 1s linear 0.1s 1'}
+        optionsOnHover: {
+          color: 'var(--LightGrayishBlue)'
+        },
+        option: {
+          color: 'var(--DarkGrayishBlue)',
+          transition: '0.4s color'
+        }
+        ,
+
+        icons: { animation: 'rotate_360 1s linear 0.1s 1' }
 
 
       }
@@ -80,12 +85,12 @@ function App() {
         },
         body: {
           backgroundColor: 'white',
-          transition:'0.8s background-color, background-image'
+          transition: '0.8s background-color, background-image'
 
         },
         todosContainer: {
           backgroundColor: 'var(--vLightGray)',
-          transition:'0.8s background-color, background-image'
+          transition: '0.8s background-color, background-image'
 
         },
         circle: {
@@ -97,12 +102,17 @@ function App() {
 
         }
         ,
-
-
+        optionsOnHover: {
+          color: 'var(--vDarkGrayishBlue)'
+        },
+        option: {
+          color: 'var(--darkGrayishBlue)'
+        }
+        ,
         todoTitle: {
           color: 'var(--DarkGrayishBlue)'
         }
-        ,icons:{animation: 'rotate_180 1 0.1s linear 1s'}
+        , icons: { animation: 'rotate_180 1 0.1s linear 1s' }
 
       }
 
@@ -112,28 +122,62 @@ function App() {
       setModeIcon(iconMoon)
       setStyle(style);
     }
+
+
+
+
   }
 
   useEffect(() => {
-    console.log(size)
-    const style = {
-      //style to apply
+    const handleResize = () => {
+      const newWidth = window.innerWidth;
+      setSize(newWidth)
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    let darkMode = localStorage.getItem("DARKMODE");
+    if (size <= 500 && darkMode) {
+      const newStyle = {
+        ...style,
+        head: {
+          backgroundImage: `url(${imgBgMobileDark})`
+        }
+
+      }
+      setStyle(newStyle);
+
+    }
+    else if (size <= 500 && !darkMode) {
+      const newStyle = {
+        ...style,
+        head: {
+          backgroundImage: `url(${imgBgMobileLight})`
+        }
+
+      }
+      setStyle(newStyle);
+
     }
   }, [size])
 
-  function geWinowSize() {
-    setSize(window.innerWidth);
-
-  }
-
-  window.addEventListener('resize', geWinowSize);
 
   return (
     <>
       <Router>
 
         <Routes>
-          <Route path="/login" element={<Login />} />
+
+          <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path='/todos' exact element={<Todo modes={modes}
             style={style}
