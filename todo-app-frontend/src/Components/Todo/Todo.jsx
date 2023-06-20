@@ -156,7 +156,7 @@ const Todo = ({ modes, style, icon }) => {
     /**=============logout function =========== */
     const logout = () => {
         localStorage.removeItem("LoginItem");
-        navigate('/login');
+        navigate('/');
     }
 
     const options = ["All", "Completed", "Active"];
