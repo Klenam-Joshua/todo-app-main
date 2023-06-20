@@ -3,12 +3,12 @@ const checkAuthorization = (navigate, data) => {
 
     if (data) {
         if ((!data.usertoken || !data.user.id)) {
-            navigate('/login');
+            navigate('/');
 
         }
     }
     else {
-        navigate('/login');
+        navigate('/');
     }
 }
 
