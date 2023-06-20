@@ -5,7 +5,7 @@ import checkAuthorization from '../Authorization/LoginAuth';
 import updateStatus from '../apiRequests/updateStatus';
 import updatePriority from '../apiRequests/updatePriority';
 import deleteCompletedTasks from '../apiRequests/clearAllRequest';
-import { imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, iconCheck, iconCross, }
+import { imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, iconCheck, iconCross, iconLogout }
     from '../../Components/Images';
 
 import Login from '../Login/Login';
@@ -22,6 +22,8 @@ const Todo = ({ modes, style, icon }) => {
     useEffect(() => {
         checkAuthorization(navigate, dataJson);
     }, [])
+
+
     const [token, setToken] = useState(dataJson?.usertoken);
     const [user, setUser] = useState(dataJson?.user);
     const [data, setData] = useState(null);
@@ -69,6 +71,7 @@ const Todo = ({ modes, style, icon }) => {
             title: todoTitle,
             status: "active",
             priority: data.All.length + 1,
+            startTime: time
 
         }
         createTask(requestData, token, user.id)
@@ -124,6 +127,7 @@ const Todo = ({ modes, style, icon }) => {
                     }
                     else {
                         setFilteredData(data[filterOption1]);
+
                     }
 
                 }
@@ -159,17 +163,21 @@ const Todo = ({ modes, style, icon }) => {
 
     return (
         <main className="container" style={style ? style.body : {}}>
-            <header style={style ? style.head : {}} id='header'>
+            <header style={style.head} id='header'>
                 <div id="userInfo">
                     <p onClick={() => setOpen(!open)}
-                        className="text-right ">{user?.name}</p>
+                        className="text-right ">{user?.name}
+                        <span id='logoutIcon'>
+                            <img src={iconLogout} alt="logout-icon" />
+                        </span>
+                    </p>
                     <div className={open ? "exitbox d-block" : "d-none exitbox"}
                     >
                         <ul>
                             <li role="button"
                                 onClick={() => logout()}
                             >logout</li>
-                            <li>edit profile</li>
+
                         </ul>
                     </div>
 
@@ -213,7 +221,7 @@ const Todo = ({ modes, style, icon }) => {
             </header>
             <section style={style ? style.todosContainer : {}}
                 className=" w-5  " id='contents'>
-                {filteredData?.length < 1 ? <p className='text-center py-1' style={style ? style.todosContainer : {}}> nothing to show</p> :
+                {filteredData?.length < 1 ? <p className='text-center py-1  instruction' > nothing to show</p> :
 
 
                     filteredData?.map((item, index) => {
@@ -249,15 +257,22 @@ const Todo = ({ modes, style, icon }) => {
                                         className="text_line-through  w-10 text_align_justify">
                                         {item.title}
                                     </p>
-                                    <div className="cross-con ">
-                                        <span onClick={
-                                            () => {
-                                                DeleteRequest(token, user.id, item.id);
-
-
-                                            }}>
-                                            <img src={iconCross} alt="icon-cross" className='icon-cross' />
+                                    <div className='row justify-between '>
+                                        <span>
+                                            {/* {item.startTime} */}
                                         </span>
+
+                                        <div className="cross-con ">
+
+                                            <span onClick={
+                                                () => {
+                                                    DeleteRequest(token, user.id, item.id);
+
+
+                                                }}>
+                                                <img src={iconCross} alt="icon-cross" className='icon-cross' />
+                                            </span>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -344,6 +359,11 @@ const Todo = ({ modes, style, icon }) => {
 
                 </div>
             </section>
+            <div className="instruction  text-center">
+                <p>
+                    Drag and drop to reorder list
+                </p>
+            </div>
         </main >
     )
 }
