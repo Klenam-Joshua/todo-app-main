@@ -14,7 +14,13 @@ class CustomAuthMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
+    { 
+         
         return $next($request);
     }
+    // public function isValidToken($token){
+    //     return Auth::guard('api')->once(['api_token']=>$token)
+    // }
+
+
 }
