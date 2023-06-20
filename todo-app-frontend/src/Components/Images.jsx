@@ -19,5 +19,7 @@ export {
     iconCheck,
     iconCross,
     iconMoon,
-    iconSun
+    iconSun,
+    iconLogout
+
 }
