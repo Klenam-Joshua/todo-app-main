@@ -69,3 +69,26 @@
     text-decoration: none;
     padding-left: 1rem;
 }
+
+@media screen and (max-width:855px) {
+    #loginWrapper {
+        width: calc(64% + 7vw)
+    }
+}
+
+@media screen and (max-width:483px) {
+
+    #loginWrapper {
+        width: 95%;
+    }
+
+
+
+    .form_container {
+        width: 100%;
+    }
+
+    #signup_form_wrapper * {
+        font-size: 0.9rem
+    }
+}
