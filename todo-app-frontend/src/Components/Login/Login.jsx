@@ -2,9 +2,12 @@ import { useState, React } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { imgBgDesktopDark, imgBgDesktopLight } from '../Images';
 import './Login.css';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Login = () => {
+
     let isDarkMode = localStorage.getItem("DARKMODE");
+
     const [notFound, setNotFound] = useState(false);
     const [responseError, setResponseError] = useState(false);
     const [badRequestError, setBadRequestError] = useState(null);
@@ -16,7 +19,7 @@ const Login = () => {
     const handleLogin = () => {
 
         async function handlelogin() {
-            const url = 'http://127.0.0.1:8000/api';
+
             let data = {
                 email: userEmail,
                 password: userPassword
@@ -26,7 +29,7 @@ const Login = () => {
 
             try {
 
-                let response = await fetch('http://127.0.0.1:8000/api/login', {
+                let response = await fetch(`${apiUrl}login`, {
                     mode: 'cors',
                     headers: {
                         'content-Type': 'Application/json',

@@ -1,10 +1,11 @@
 import React from 'react'
 import { json } from 'react-router-dom';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const updatePriority = (token, userId, elementBeingDraggedId, elementBeingDraggedOnId) => {
     const updatepriority = () => {
 
-        const url = 'http://127.0.0.1:8000/api/';
+
 
         const requestData = {
             method: 'POST',
@@ -20,7 +21,7 @@ const updatePriority = (token, userId, elementBeingDraggedId, elementBeingDragge
             })
         }
 
-        fetch(`${url}updatepriority`, requestData)
+        fetch(`${apiUrl}updatepriority`, requestData)
             .then((response) => {
                 if (!response.ok) {
 

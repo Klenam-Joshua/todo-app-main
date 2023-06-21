@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+const apiUrl = import.meta.env.VITE_API_URL;
 import { useNavigate } from 'react-router-dom';
 const updateStatus = (navigate, token, userId, id) => {
 
@@ -13,7 +14,7 @@ const updateStatus = (navigate, token, userId, id) => {
 
 
 
-        const url = 'http://127.0.0.1:8000/api/';
+
         const headers = {
             'content-Type': 'application/json',
             'token': ` Bearer ${token}`,
@@ -22,7 +23,7 @@ const updateStatus = (navigate, token, userId, id) => {
         }
         try {
 
-            let response = await fetch(`${url}updatestatus/${id}`, {
+            let response = await fetch(`${apiUrl}updatestatus/${id}`, {
                 method: "PUT",
                 headers
             });

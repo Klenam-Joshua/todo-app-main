@@ -4,6 +4,7 @@ import DeleteRequest from '../apiRequests/DeleteRequest';
 import checkAuthorization from '../Authorization/LoginAuth';
 import updateStatus from '../apiRequests/updateStatus';
 import updatePriority from '../apiRequests/updatePriority';
+const apiUrl = import.meta.env.VITE_API_URL;
 import deleteCompletedTasks from '../apiRequests/clearAllRequest';
 import { imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, iconCheck, iconCross, iconLogout }
     from '../../Components/Images';
@@ -96,7 +97,7 @@ const Todo = ({ modes, style, icon }) => {
     useEffect(() => {
 
         async function fetchTodos() {
-            const url = 'http://127.0.0.1:8000/api/';
+
             const headers = {
                 'content-Type': 'application/json',
                 'token': ` Bearer ${token}`,
@@ -105,7 +106,7 @@ const Todo = ({ modes, style, icon }) => {
             }
             try {
 
-                let response = await fetch(`${url}tasks`, { headers });
+                let response = await fetch(`${apiUrl}tasks`, { headers });
                 if (response.status === 401) {
                     navigate('/login');
                 }
@@ -124,6 +125,7 @@ const Todo = ({ modes, style, icon }) => {
                     let filterOption1 = localStorage.getItem("filterOption");
                     if (!filterOption) {
                         setFilteredData(data["All"]);
+                        localStorage.setItem("filterOption", "All");
                     }
                     else {
                         setFilteredData(data[filterOption1]);
@@ -160,6 +162,15 @@ const Todo = ({ modes, style, icon }) => {
     }
 
     const options = ["All", "Completed", "Active"];
+    if (responseError) {
+        return (
+            <div style={style.todosContainer}>
+                <p>
+                    there was a proble loading your tasks
+                </p>
+            </div>
+        )
+    }
 
     return (
         <main className="container" style={style ? style.body : {}}>
@@ -252,7 +263,7 @@ const Todo = ({ modes, style, icon }) => {
 
                                     </div>
                                     <p
-                                        onClick={() => updateStatus(navigate, token, user.id, item.id)}
+
                                         style={style.todoTitle}
                                         className="text_line-through  w-10 text_align_justify">
                                         {item.title}
@@ -299,7 +310,7 @@ const Todo = ({ modes, style, icon }) => {
 
                                     </div>
                                     <p
-                                        onClick={() => updateStatus(navigate, token, user.id, item.id)}
+
                                         style={style.todoTitle ? style.todoTitle : {}}
                                         className="  w-10 text_align_justify">
                                         {item.title}

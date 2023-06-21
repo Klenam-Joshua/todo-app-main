@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Signup.css";
 import { imgBgDesktopDark, imgBgDesktopLight } from '../Images';
-
+const apiUrl = import.meta.env.VITE_API_URL
 
 
 const Signup = ({ style }) => {
@@ -12,6 +12,7 @@ const Signup = ({ style }) => {
     const [badRequestError, setBadRequestError] = useState(null);
     const [userExist, setUserExist] = useState(false);
     const [userAdded, setUserAdded] = useState(false);
+
 
     const [userEmail, setUserEmail] = useState(null);
     const [userPassword, setUserPassword] = useState(null);
@@ -25,7 +26,7 @@ const Signup = ({ style }) => {
     const handleSignup = () => {
 
         async function handlesignup() {
-            const url = 'http://127.0.0.1:8000/api';
+
             let data = {
                 useremail: userEmail,
                 userpassword: userPassword,
@@ -49,7 +50,7 @@ const Signup = ({ style }) => {
 
             try {
 
-                let response = await fetch('http://127.0.0.1:8000/api/signup', requestOptions);
+                let response = await fetch(`${apiUrl}signup`, requestOptions);
 
 
                 if (response.status === 404) {
