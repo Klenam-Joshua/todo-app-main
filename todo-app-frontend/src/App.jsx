@@ -23,7 +23,7 @@ function App() {
   const [modeIcon, setModeIcon] = useState(iconMoon);
   const [size, setSize] = useState(window.innerWidth);
   const [style, setStyle] = useState({})
-  const [desktopMode, setDestopMode] = useState({});
+  //  const [desktopMode, setDesktopMode] = useState(style);
 
 
 
@@ -75,12 +75,12 @@ function App() {
 
       }
       setStyle(modeStyle);
-      setDestopMode(modeStyle);
+      //  setDestopMode(modeStyle);
       localStorage.setItem("DARKMODE", darkMode);
       // mode = localStorage.getItem('DARKMODE');
     }
     else {
-      localStorage.setItem("DARKMODE", darkMode)
+      //  localStorage.setItem("DARKMODE", darkMode)
       const modeStyle = {
         head: {
           backgroundImage: `url(${imgBgDesktopLight})`,
@@ -123,7 +123,7 @@ function App() {
 
       setModeIcon(iconMoon)
       setStyle(modeStyle);
-      setDestopMode(modeStyle);
+      // setDesktopMode(modeStyle);
     }
 
 
@@ -148,32 +148,25 @@ function App() {
 
 
   useEffect(() => {
-    let darkMode = localStorage.getItem("DARKMODE");
-    if (size <= 375 && darkMode) {
-      const newStyle = {
-        ...style,
-        head: {
-          backgroundImage: `url(${imgBgMobileDark})`
-        }
 
+    let darkMode = localStorage.getItem('DARKMODE');
+    let bgImage = size <= 375 ? (darkMode ? imgBgMobileDark : imgBgMobileLight) : (darkMode ? imgBgDesktopDark : imgBgDesktopLight);
+    const newStyle = {
+      ...style,
+      head: {
+        backgroundImage: `url(${bgImage})`
       }
-      setStyle(newStyle);
-
-    }
-    else if (size <= 375 && !darkMode) {
-      const newStyle = {
-        ...style,
-        head: {
-          backgroundImage: `url(${imgBgMobileLight})`
-        }
-
+    };
+    setStyle((prevStyle) => ({
+      ...prevStyle,
+      head: {
+        backgroundImage: `url(${bgImage})`
       }
-      setStyle(newStyle);
+    }));
 
-    }
-    else {
-      setStyle(desktopMode)
-    }
+
+    //  else if()
+
   }, [size])
 
 
