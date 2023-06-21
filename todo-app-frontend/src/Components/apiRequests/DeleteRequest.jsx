@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const DeleteRequest = (token, userId, id) => {
     let notFound = false;
@@ -12,7 +13,7 @@ const DeleteRequest = (token, userId, id) => {
 
 
 
-        const url = 'http://127.0.0.1:8000/api/';
+
         const headers = {
             'content-Type': 'application/json',
             'token': ` Bearer ${token}`,
@@ -21,7 +22,7 @@ const DeleteRequest = (token, userId, id) => {
         }
         try {
 
-            let response = await fetch(`${url}deletetodo/${id}`, {
+            let response = await fetch(`${apiUrl}deletetodo/${id}`, {
                 method: "DELETE",
                 headers
             });

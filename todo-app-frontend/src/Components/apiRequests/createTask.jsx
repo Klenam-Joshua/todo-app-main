@@ -1,10 +1,10 @@
 
-
+const apiUrl = import.meta.env.VITE_API_URL;
 const createTask = (data, token, userId) => {
     const createtask = async function () {
         let responseError = false;
 
-        const url = 'http://127.0.0.1:8000/api/';
+
         const requestOptions = {
             method: "POST",
             headers: {
@@ -17,7 +17,7 @@ const createTask = (data, token, userId) => {
         }
         try {
 
-            let response = await fetch(`${url}createtask`, requestOptions);
+            let response = await fetch(`${apiUrl}createtask`, requestOptions);
 
             if (response.status === 401) {
                 navigate('/login');
