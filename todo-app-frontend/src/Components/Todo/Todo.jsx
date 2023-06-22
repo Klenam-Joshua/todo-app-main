@@ -7,7 +7,7 @@ import updatePriority from '../apiRequests/updatePriority';
 const apiUrl = import.meta.env.VITE_API_URL;
 import deleteCompletedTasks from '../apiRequests/clearAllRequest';
 import { imgBgDesktopDark, imgBgDesktopLight, imgBgMobileDark, imgBgMobileLight, iconCheck, iconCross, iconLogout }
-    from '../../Components/Images';
+    from '../Images';
 
 import Login from '../Login/Login';
 import './Todo.css';
@@ -173,7 +173,7 @@ const Todo = ({ modes, style, icon }) => {
     }
 
     return (
-        <main className="container" style={style ? style.body : {}}>
+        <main className="container" style={style ? style.body : {}} id="todo_main_con">
             <header style={style.head} id='header'>
                 <div id="userInfo">
                     <p onClick={() => setOpen(!open)}
@@ -304,8 +304,10 @@ const Todo = ({ modes, style, icon }) => {
                                         onClick={() => updateStatus(navigate, token, user.id, item.id)}
                                         className="circle-con pl-0_5 row justify-center align-center">
                                         <div
-                                            className="circle    row justify-center align-center">
+                                            className="second_circle_con circle   row justify-center align-center">
+                                            <div className="circle2" style={style.todosContainer}>
 
+                                            </div>
                                         </div>
 
                                     </div>

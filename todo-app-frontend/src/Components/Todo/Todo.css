@@ -1,7 +1,6 @@
-main {
-    height: 100%;
+#todo_main_con {
     background-repeat: no-repeat;
-
+    min-height: 100%;
 }
 
 #header {
@@ -34,7 +33,7 @@ main {
     position: absolute;
     right: 0;
     border-radius: 0.4rem;
-    top: 2.7rem;
+    top: 3rem;
 
 }
 
@@ -155,7 +154,31 @@ main {
     border: 1px solid var(--vDarkGrayishBlue)
 }
 
+
+
+
+
+.second_circle_con:hover {
+    background-image: var(--checkBackground);
+    border-color: transparent;
+
+}
+
+
+.circle2 {
+    width: 14.2px;
+    height: 14.2px;
+    border-radius: 50%;
+}
+
+
+.second_circle_con:hover .circle2 {
+    background-color: white;
+}
+
+
 /* 
+
 .circle:hover {
     border: 2px groove var(--checkBackground) */
 
@@ -222,6 +245,11 @@ main {
     color: var(--DarkGrayishBlue);
 
 }
+
+
+
+
+
 
 @media screen and (max-width:422px) {
     #header {
