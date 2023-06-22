@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const deleteCompletedTasks = (token, userId) => {
     let notFound = false;
@@ -12,7 +13,7 @@ const deleteCompletedTasks = (token, userId) => {
 
 
 
-        const url = 'http://127.0.0.1:8000/api/';
+
         const headers = {
             'content-Type': 'application/json',
             'token': ` Bearer ${token}`,
@@ -21,7 +22,7 @@ const deleteCompletedTasks = (token, userId) => {
         }
         try {
 
-            let response = await fetch(`${url}clearallcompletes/`, {
+            let response = await fetch(`${apiUrl}clearallcompletes/`, {
                 method: "DELETE",
                 headers
             });
