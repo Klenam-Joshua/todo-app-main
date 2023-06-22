@@ -1,7 +1,5 @@
-.layout_container {
+#loginWrapper {
     height: 100%;
-    background: url(../../assets/images/bg-desktop-dark.jpg);
-    background-size: cover;
     background-repeat: no-repeat;
 }
 
@@ -71,14 +69,14 @@
 }
 
 @media screen and (max-width:855px) {
-    #loginWrapper {
+    #login_wrapper {
         width: calc(64% + 7vw)
     }
 }
 
 @media screen and (max-width:483px) {
 
-    #loginWrapper {
+    #login_wrapper {
         width: 95%;
     }
 

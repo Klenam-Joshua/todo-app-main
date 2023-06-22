@@ -101,8 +101,8 @@ const Signup = ({ style }) => {
 
 
     return (
-        <main style={isDarkMode ? { backgroundImage: `url(${imgBgDesktopLight})` } : { backgroundImage: `url(${imgBgDesktopDark})` }}
-            className="signup_form_container">
+        <section style={isDarkMode ? { backgroundImage: `url(${imgBgDesktopLight})` } : { backgroundImage: `url(${imgBgDesktopDark})` }}
+            className="signup_form_container" id='signupform_con'>
             <div className='wrapper   w-4' id='signup_form_wrapper'>
                 {userAdded ? <p> user added successfully</p> : userExist ? <p className='text-red'> please user already exist</p> : ""}
                 <h2>sign up</h2>
@@ -239,7 +239,7 @@ const Signup = ({ style }) => {
 
             </div>
 
-        </main>
+        </section>
     );
 }
 

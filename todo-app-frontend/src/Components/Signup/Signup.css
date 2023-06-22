@@ -1,3 +1,8 @@
+.signup_form_container {
+    height: 100%;
+    background-repeat: no-repeat;
+}
+
 .wrapper {
     position: relative;
     top: 50%;
