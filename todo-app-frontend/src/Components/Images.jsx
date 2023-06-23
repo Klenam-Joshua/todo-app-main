@@ -8,7 +8,7 @@ import iconCheck from '../assets/images/icon-check.svg';
 import iconCross from '../assets/images/icon-cross.svg';
 import iconMoon from '../assets/images/icon-moon.svg';
 import iconSun from '../assets/images/icon-sun.svg';
-import iconLogout from '../assets/images/power.svg'
+import iconLogout from '../assets/images/power.png'
 
 export {
     imgBgDesktopDark,
