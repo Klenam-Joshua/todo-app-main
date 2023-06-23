@@ -61,9 +61,8 @@ function App() {
         todoTitle: {
           color: 'var( --LightGrayishBlue)'
         },
-        optionsOnHover: {
-          color: 'var(--LightGrayishBlue)'
-        },
+
+
         option: {
           color: 'var(--DarkGrayishBlue)',
           transition: '0.4s color'
@@ -104,13 +103,12 @@ function App() {
 
         }
         ,
-        optionsOnHover: {
-          color: 'var(--vDarkGrayishBlue)'
-        },
+
         option: {
           color: 'var(--darkGrayishBlue)'
         }
         ,
+
         todoTitle: {
           color: 'var(--DarkGrayishBlue)'
         }
