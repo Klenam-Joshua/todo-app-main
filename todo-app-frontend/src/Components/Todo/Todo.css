@@ -100,7 +100,9 @@
     border: None;
     font-weight: bold;
     font-family: var(--roboto);
-    color: var(--DarkGrayishBlue)
+    color: var(--DarkGrayishBlue);
+    caret-color: var(--brightBlue);
+
 }
 
 .text-field_con input:not([type="text"]) {
@@ -247,8 +249,14 @@
 }
 
 
+.hover-dark:hover {
+    color: var(--vDarkGrayishBlue)
+}
 
+.hover-light:hover {
+    color: var(--LightGrayishBlue);
 
+}
 
 
 @media screen and (max-width:422px) {

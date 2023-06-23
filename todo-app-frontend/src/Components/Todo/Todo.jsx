@@ -80,7 +80,10 @@ const Todo = ({ modes, style, icon }) => {
 
 
     const setActiveButton = (option) => {
-        return localStorage.getItem("filterOption") === option ? "active" : "option"
+        let filterOption = localStorage.getItem("filterOption")
+        return filterOption === option && isDarkMode ? "active " : filterOption !== option && isDarkMode ? "hover-light option" :
+            filterOption === option && !isDarkMode ? "active" : "hover-dark  option"
+
     }
 
     const toggleMode = () => {
@@ -365,7 +368,9 @@ const Todo = ({ modes, style, icon }) => {
                     <div
                         onClick={() => deleteCompletedTasks(token, user.id)}
                         className="clear_con">
-                        <span role="button" className='text-center'>
+                        <span role="button" className={isDarkMode ? "text-center hover-light" : "text-center hover-dark"}
+
+                        >
                             clear Completed
                         </span>
                     </div>
