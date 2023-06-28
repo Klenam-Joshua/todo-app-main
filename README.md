@@ -39,8 +39,9 @@ todo application
 
 
    # Built-with
-    - React.js
-    - Laravel
+    - React.js: A JavaScript library for building user interfaces.
+    - Laravel: A PHP framework for developing web applications.
+    
 
        
 
@@ -65,3 +66,8 @@ todo application
 
   # Author 
   - Kumordzi Joshua Klenam
+
+
+  # acknowledgments
+  I would like to express my gratitude to God for keeping me healthy throughout the project. I also want to thank Amalitech for providing me with the opportunity to work on this todo application.
+
