@@ -57,8 +57,8 @@ todo application
 
    # links
 
-   - Solution URL: [Add solution URL here](https://your-solution-url.com)
-   - Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+   - Solution URL: [https://github.com/Klenam-Joshua/todo-app-main]
+   - Live Site URL: [https://jkltodoapp1.000webhostapp.com/]
 
 
 
